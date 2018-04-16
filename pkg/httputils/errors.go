@@ -34,6 +34,12 @@ type APIError struct {
 	DebugMessage string `json:"debug_message,omitempty"`
 	// Details specifies the additional error information
 	Errors interface{} `json:"errors,omitempty"`
+	err    error
+}
+
+func (e *APIError) WithError(err error) *APIError {
+	e.err = err
+	return e
 }
 
 // Error returns the error message.
@@ -117,5 +123,5 @@ func Forbidden(message ...string) *APIError {
 	} else {
 		msg = http.StatusText(http.StatusForbidden)
 	}
-	return NewAPIError(http.StatusForbidden, msg,   "")
+	return NewAPIError(http.StatusForbidden, msg, "")
 }
