@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package distinguish;
+
+service Distinguish {
+    rpc Distinguish (Image) returns (Yzm) {
+    }
+}
+
+message Image {
+    enum Category {
+        DATA1 = 0;
+        DATA2 = 1;
+        DATA3 = 2;
+        DATA4 = 3;
+        DATA5 = 4;
+    };
+    Category category = 1;
+    bytes data = 2;
+}
+
+message Yzm {
+    string yzm = 1;
+}
+
