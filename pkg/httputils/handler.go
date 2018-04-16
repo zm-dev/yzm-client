@@ -17,5 +17,10 @@ func (fn APPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func handleError(w http.ResponseWriter, r *http.Request, err HTTPError) {
 	log.Warnf("出了一个大错：%+v", err)
+	for key, vals := range err.Headers() {
+		for _, val := range vals {
+			w.Header().Add(key, val)
+		}
+	}
 	http.Error(w, err.Error(), err.StatusCode())
 }

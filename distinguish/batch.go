@@ -1,4 +1,4 @@
-package batch
+package distinguish
 
 import (
 	"io"
@@ -13,7 +13,7 @@ import (
 
 type batchDistinguishFunc func(ctx context.Context, imageChan <-chan Image, yzmChan chan<- Label) error
 
-func Process(category int, zipFile io.ReaderAt, size int64, bdfunc batchDistinguishFunc) (yzmRecvChan <-chan Label, err error) {
+func BatchProcess(category int, zipFile io.ReaderAt, size int64, bdfunc batchDistinguishFunc) (yzmRecvChan <-chan Label, err error) {
 
 	reader, err := zip.NewReader(zipFile, size)
 

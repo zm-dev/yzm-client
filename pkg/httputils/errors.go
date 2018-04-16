@@ -1,6 +1,9 @@
 package httputils
 
-import "net/http"
+import (
+	"net/http"
+	"encoding/json"
+)
 
 type ErrNotFound interface {
 	error
@@ -21,6 +24,8 @@ type HTTPError interface {
 	// StatusCode returns the HTTP status code of the error
 	StatusCode() int
 	Headers() http.Header
+	WithError(err error) HTTPError
+	InsideError() error
 }
 
 // apiError represents an error that can be sent in an error response.
@@ -37,9 +42,13 @@ type APIError struct {
 	err    error
 }
 
-func (e *APIError) WithError(err error) *APIError {
+func (e *APIError) WithError(err error) HTTPError {
 	e.err = err
 	return e
+}
+
+func (e *APIError) InsideError() error {
+	return e.err
 }
 
 // Error returns the error message.
@@ -49,7 +58,9 @@ func (e *APIError) Error() string {
 	//} else {
 	//	return err.Error()
 	//}
-	return ""
+	// TODO: error handing
+	b, _ := json.Marshal(e)
+	return string(b)
 }
 
 // StatusCode returns the HTTP status code.
@@ -124,4 +135,14 @@ func Forbidden(message ...string) *APIError {
 		msg = http.StatusText(http.StatusForbidden)
 	}
 	return NewAPIError(http.StatusForbidden, msg, "")
+}
+
+func BadRequest(message ...string) *APIError {
+	var msg string
+	if len(message) > 0 {
+		msg = message[0]
+	} else {
+		msg = http.StatusText(http.StatusBadRequest)
+	}
+	return NewAPIError(http.StatusBadRequest, msg, "")
 }
