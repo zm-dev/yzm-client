@@ -9,7 +9,7 @@ import (
 	"fmt"
 )
 
-func Process(category int, filename string, r io.Reader) (label Label, err error) {
+func Process(category int, r io.Reader) (yzmStr string, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 	distinguishClient, err := distinguish_service.Client()
@@ -18,10 +18,17 @@ func Process(category int, filename string, r io.Reader) (label Label, err error
 	}
 	b, err := ioutil.ReadAll(r)
 	if err != nil {
-		err = fmt.Errorf("验证码图片读取失败，图片名称：%s。error:%+v", filename, err)
+		err = fmt.Errorf("验证码图片读取失败。error:%+v", err)
 		return
 
 	}
 	yzm, err := distinguishClient.Distinguish(ctx, &pb.Image{Category: pb.Image_Category(category), Data: b})
-	return Label{filename, yzm.Yzm}, nil
+
+	label2StrFunc, err := GetLabel2StrFunc(category)
+
+	if err != nil {
+		return "", err
+	}
+
+	return label2StrFunc(Label{"", yzm.Yzm}), nil
 }
