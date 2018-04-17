@@ -1,9 +1,9 @@
 package distinguish
 
 import (
-	"github.com/3tnet/yzm-client/pkg/distinguish_service"
+	"github.com/zm-dev/yzm-client/pkg/distinguish_service"
 	"context"
-	pb "github.com/3tnet/yzm-client/pkg/distinguish_service/protos"
+	pb "github.com/zm-dev/yzm-client/pkg/distinguish_service/protos"
 	"io"
 	"io/ioutil"
 	"fmt"

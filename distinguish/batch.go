@@ -3,8 +3,8 @@ package distinguish
 import (
 	"io"
 	"archive/zip"
-	"github.com/3tnet/yzm-client/pkg/distinguish_service"
-	pb "github.com/3tnet/yzm-client/pkg/distinguish_service/protos"
+	"github.com/zm-dev/yzm-client/pkg/distinguish_service"
+	pb "github.com/zm-dev/yzm-client/pkg/distinguish_service/protos"
 	"context"
 	log "github.com/sirupsen/logrus"
 	"time"

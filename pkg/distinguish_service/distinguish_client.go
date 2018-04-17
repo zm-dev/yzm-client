@@ -3,7 +3,7 @@ package distinguish_service
 import (
 	"google.golang.org/grpc"
 	"fmt"
-	pb "github.com/3tnet/yzm-client/pkg/distinguish_service/protos"
+	pb "github.com/zm-dev/yzm-client/pkg/distinguish_service/protos"
 	"sync"
 	"os"
 )

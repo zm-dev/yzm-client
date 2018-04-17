@@ -2,11 +2,11 @@ package handler
 
 import (
 	"net/http"
-	"github.com/3tnet/yzm-client/pkg/httputils"
+	"github.com/zm-dev/yzm-client/pkg/httputils"
 	"fmt"
 	"github.com/gorilla/mux"
 	"strconv"
-	"github.com/3tnet/yzm-client/distinguish"
+	"github.com/zm-dev/yzm-client/distinguish"
 )
 
 func CreateHTTPAPIHandler() (http.Handler) {
