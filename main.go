@@ -9,7 +9,7 @@ import (
 
 func main() {
 	r := mux.NewRouter()
-	handler.CreateWebHandler(r)
 	handler.CreateHTTPAPIHandler(r)
+	handler.CreateWebHandler(r)
 	log.Fatal(http.ListenAndServe(":8000", r))
 }

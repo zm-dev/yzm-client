@@ -34,5 +34,6 @@ func download(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
 	w.Header().Add("Cache-Control", "must-revalidate")
 	w.Header().Add("Pragma", "public")
 	http.ServeFile(w, r, filename)
+	os.Remove(filename)
 	return nil
 }

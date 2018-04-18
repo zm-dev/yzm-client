@@ -31,28 +31,24 @@ func batchUpload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
 	if err != nil {
 		return httputils.InternalServerError("图片压缩包上传失败！").WithError(err)
 	}
-    defer batchImageFile.Close()
+	defer batchImageFile.Close()
 
 	mappings, err := distinguish.BatchProcess(category, batchImageFile, batchImageFileHeader.Size, distinguish.BatchDistinguish)
 
 	if err != nil {
 		return httputils.InternalServerError("图片压缩包处理失败！").WithError(err)
 	}
-
-	b, err := ioutil.ReadAll(mappings)
-	if err != nil {
-		return httputils.InternalServerError("").WithError(err)
-	}
+	content := distinguish.LoadMappingLines(mappings).ToSortedString()
 
 	u := uuid.Must(uuid.NewV4()).String()
-	err = ioutil.WriteFile(mappingsDir+u, b, 0644)
+	err = ioutil.WriteFile(mappingsDir+u, []byte(content), 0644)
 	if err != nil {
 		return httputils.InternalServerError("生成" + mappingsFileName + "文件失败！").WithError(err)
 	}
 
 	jsonBytes, _ := json.Marshal(struct {
 		DownloadUrl string `json:"download_url"`
-	}{DownloadUrl: "/download?id=" + u})
+	}{DownloadUrl: "download?id=" + u})
 	w.Write(jsonBytes)
 	return nil
 }
