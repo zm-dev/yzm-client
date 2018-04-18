@@ -9,9 +9,12 @@ export default class ProgressBtn extends React.PureComponent {
 
   render() {
     return (
-      <div className="progress_btn">
-        <button onClick={this.props.onClick} disabled={this.isLoading(this.props.progress)}
-                className="btn">{this.props.children}</button>
+      <div className="progress_btn"
+           disabled={this.isLoading(this.props.progress)}
+           onClick={() => {
+             !this.isLoading(this.props.progress) && this.props.onClick();
+           }}>
+        <span className="text">{this.props.children}</span>
         {this.isLoading(this.props.progress) && <div style={{width: `${this.props.progress}%`}} className="progress"/>}
       </div>
     );
