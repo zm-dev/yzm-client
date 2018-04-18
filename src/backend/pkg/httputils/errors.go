@@ -105,7 +105,7 @@ func InternalServerError(message string, debugMessage ...string) *APIError {
 // NotFound creates a new API error representing a resource-not-found error (HTTP 404)
 func NotFound(message string, debugMessage ...string) *APIError {
 	if message == "" {
-		message = http.StatusText(http.StatusInternalServerError)
+		message = http.StatusText(http.StatusNotFound)
 	}
 
 	debugMsg := ""

@@ -6,15 +6,18 @@ import (
 	"github.com/gorilla/mux"
 	"strconv"
 	"github.com/zm-dev/yzm-client/src/backend/distinguish"
-	"io/ioutil"
 	"encoding/json"
+	"github.com/satori/go.uuid"
+	"io/ioutil"
 )
+
+const mappingsDir = "./mappings/"
 
 func CreateHTTPAPIHandler(r *mux.Router) {
 	api := r.PathPrefix("/api").Subrouter()
 	{
-		api.Handle("/batch_upload", httputils.APPHandler(batchUpload))
-		api.Handle("/upload", httputils.APPHandler(upload))
+		api.Handle("/batch_upload", httputils.APPHandler(batchUpload)).Methods("POST")
+		api.Handle("/upload", httputils.APPHandler(upload)).Methods("POST")
 	}
 }
 
@@ -37,8 +40,21 @@ func batchUpload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
 		return httputils.InternalServerError("图片压缩包处理失败！").WithError(err)
 	}
 
-	b, _ := ioutil.ReadAll(mappings)
-	w.Write(b)
+	b, err := ioutil.ReadAll(mappings)
+	if err != nil {
+		return httputils.InternalServerError("").WithError(err)
+	}
+
+	u := uuid.Must(uuid.NewV4()).String()
+	err = ioutil.WriteFile(mappingsDir+u, b, 0644)
+	if err != nil {
+		return httputils.InternalServerError("生成" + mappingsFileName + "文件失败！").WithError(err)
+	}
+
+	jsonBytes, _ := json.Marshal(struct {
+		DownloadUrl string `json:"download_url"`
+	}{DownloadUrl: "/download?id=" + u})
+	w.Write(jsonBytes)
 	return nil
 }
 
