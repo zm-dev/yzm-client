@@ -12,7 +12,7 @@ class App extends Component {
           </div>
           <h1>A16 验证码识别</h1>
           <div className="copy">
-            copyright &copy; 知明
+            copyright &copy; 2017
           </div>
         </div>
         <div className="right">
