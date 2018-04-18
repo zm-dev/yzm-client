@@ -1,0 +1,9 @@
+body {
+  background: #ffc465;
+  overflow-x: hidden;
+}
+*{
+  font-weight: 100;
+  box-sizing: border-box;
+}
+

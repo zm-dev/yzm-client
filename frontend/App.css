@@ -1,0 +1,42 @@
+.container {
+  max-width: 890px;
+  min-width: 300px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  min-height: 100vh;
+}
+.left {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-right: 40px;
+}
+.right{
+  width: 320px;
+  justify-content: center;
+}
+.left .logo {
+  background-color: #fff;
+  width: 100px;
+  height: 100px;
+  box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+  border-radius: 6px;
+}
+
+.left > .logo > img {
+  width: 100%;
+  height: 100%;
+}
+.left > h1{
+  margin-top: 20px;
+  color: rgb(166, 110, 38);
+  font-size: 20px;
+}
+
+.left .copy{
+  font-size: 14px;
+  color: #a26400;
+}

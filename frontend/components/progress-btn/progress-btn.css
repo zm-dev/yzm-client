@@ -1,0 +1,33 @@
+.progress_btn{
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+.progress_btn .btn {
+  background-color: rgb(144, 196, 124);
+  border: 0;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  line-height: 40px;
+  height: 40px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.progress_btn .progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30%;
+  height: 100%;
+  background-color: rgb(107, 155, 224);
+}
+
+.progress_btn .btn[disabled] {
+  background-color: rgb(111, 111, 111);
+}
+
+.progress_btn .btn:not([disabled]):hover {
+  background-color: rgb(131, 189, 109);
+}

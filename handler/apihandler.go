@@ -9,11 +9,9 @@ import (
 	"io/ioutil"
 )
 
-func CreateHTTPAPIHandler() (http.Handler) {
-	r := mux.NewRouter()
+func CreateHTTPAPIHandler(r *mux.Router) {
 	r.Handle("/batch_upload", httputils.APPHandler(batchUpload))
 	r.Handle("/upload", httputils.APPHandler(upload))
-	return r
 }
 
 func batchUpload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
