@@ -104,7 +104,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   display: block;
-  max-height: 55px;
+  max-height: 45px;
   max-width: 100%;
   background-color: #fff;
   padding: 2px;
@@ -125,5 +125,5 @@
   position: absolute;
   width: 100%;
   left: 0;
-  top: -10px;
+  top: -15px;
 }

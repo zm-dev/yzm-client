@@ -24,12 +24,11 @@ func batchUpload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
 		return httputils.BadRequest("category 错误！").WithError(err)
 	}
 
-	batchImageFile, batchImageFileHeader, err := r.FormFile("batch_image")
-	defer batchImageFile.Close()
-
+	batchImageFile, batchImageFileHeader, err := r.FormFile("image")
 	if err != nil {
 		return httputils.InternalServerError("图片压缩包上传失败！").WithError(err)
 	}
+    defer batchImageFile.Close()
 
 	mappings, err := distinguish.BatchProcess(category, batchImageFile, batchImageFileHeader.Size, distinguish.BatchDistinguish)
 
