@@ -16,6 +16,7 @@ export default class Uploader extends React.PureComponent {
       uploadedFileNum: null,
       currentCategory: 1,
       showResultListDialog: false,
+      downloadUrl: null,
     };
   }
 
@@ -47,6 +48,8 @@ export default class Uploader extends React.PureComponent {
       });
       if (!isZip) {
         currentFile.res = res.data.res;
+      } else {
+        this.setState({downloadUrl: res.data.download_url});
       }
       this.setState({uploadedFileNum: this.state.uploadedFileNum + 1});
     }
@@ -78,7 +81,10 @@ export default class Uploader extends React.PureComponent {
           {
             this.state.files.length > 0 ?
               this.state.uploadedFileNum >= this.state.files.length ?
-                <Complete onReload={this.reload.bind(this)}/> :
+                <Complete onDownloaded={() => {
+                  this.setState({downloadUrl: null});
+                }
+                } downloadUrl={this.state.downloadUrl} onReload={this.reload.bind(this)}/> :
                 <React.Fragment>
                   <div className="select_category_wrapper">
                     <SelectCategory onSelect={(i) => {

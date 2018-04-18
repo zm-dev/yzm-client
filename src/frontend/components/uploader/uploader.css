@@ -10,7 +10,11 @@
 .drag, .complete {
   height: 100%;
 }
-
+.complete a{
+  text-decoration: none;
+  font-weight: 700;
+  margin-right: 10px;
+}
 .uploader_wrapper, .drag .border {
   border-radius: 6px;
 }

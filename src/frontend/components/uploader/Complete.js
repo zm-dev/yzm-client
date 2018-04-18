@@ -1,6 +1,5 @@
 import React from 'react';
 import Done from '../icon/Done';
-import ResultList from "../result-list/ResultList";
 import PropTypes from "prop-types";
 
 export default class Complete extends React.PureComponent {
@@ -10,7 +9,15 @@ export default class Complete extends React.PureComponent {
         <Done/>
         <h2>完成</h2>
         <p className="info">验证码已识别完成</p>
-        <button onClick={this.props.onReload}>重新上传</button>
+        {
+          this.props.downloadUrl ?
+            <div>
+              <a onClick={this.props.onDownloaded} href={this.props.downloadUrl}>点击下载mapping.txt</a>
+              <button onClick={this.props.onReload}>重新上传</button>
+            </div> :
+            <button onClick={this.props.onReload}>重新上传</button>
+
+        }
       </div>
     );
   }
@@ -18,8 +25,12 @@ export default class Complete extends React.PureComponent {
 
 Complete.propTypes = {
   onReload: PropTypes.func.isRequired,
+  onDownloaded: PropTypes.func.isRequired,
+  downloadUrl: PropTypes.string,
 };
 Complete.defaultProps = {
   onReload: () => {
+  },
+  onDownloaded: () => {
   }
 };
