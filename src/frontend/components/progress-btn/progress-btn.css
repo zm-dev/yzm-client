@@ -7,6 +7,7 @@
   text-align: center;
   cursor: pointer;
   flex-shrink: 0;
+  transition: background-color .3s;
 }
 
 .progress_btn .text {
@@ -28,6 +29,7 @@
 
 .progress_btn[disabled] {
   cursor: not-allowed;
+  background-color: #333;
 }
 
 .progress_btn:not([disabled]):hover {

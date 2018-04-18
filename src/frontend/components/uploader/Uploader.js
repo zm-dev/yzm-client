@@ -19,23 +19,41 @@ export default class Uploader extends React.PureComponent {
     };
   }
 
+  static getExtName(name) {
+    return name.split('.').pop();
+  }
+
+  static isAllowFile(name) {
+    const extName = Uploader.getExtName(name);
+    return extName === 'jpg' || extName === 'jpeg' || extName === 'png' || extName === 'zip';
+  }
+
   async upload() {
     const self = this;
+    this.setState({uploadedFileNum: 0});
     for (const currentFile of this.state.files) {
       const form = new FormData();
       form.append('image', currentFile);
       form.append('category', String(this.state.currentCategory));
-      const res = await http.post('/upload', form, {
+      const isZip = Uploader.getExtName(currentFile.name) === 'zip';
+      const res = await http.post(isZip ? '/batch_upload' : '/upload', form, {
         headers: {'Content-Type': 'multipart/form-data'},
         onUploadProgress(progressEvent) {
-          currentFile.progress = progressEvent.loaded / progressEvent.total * 100;
+          console.log(progressEvent);
+          const {loaded, total} = progressEvent;
+          currentFile.progress = loaded / total * 100;
           self.forceUpdate();
         }
       });
-      currentFile.res = res.data.res;
+      if (!isZip) {
+        currentFile.res = res.data.res;
+      }
       this.setState({uploadedFileNum: this.state.uploadedFileNum + 1});
     }
-    this.setState({showResultListDialog: true});
+    const exceptZipFiles = this.state.files.filter(f => Uploader.getExtName(f.name) !== 'zip');
+    if (exceptZipFiles.length > 0) {
+      this.setState({showResultListDialog: true});
+    }
   }
 
   closeResultListDialog() {
@@ -75,12 +93,15 @@ export default class Uploader extends React.PureComponent {
                             progress={item.progress}
                             key={i}
                             fileName={item.name}
-                            img={window.URL.createObjectURL(item)}/>);
+                            img={Uploader.getExtName(item.name) === 'zip' ? require('../../assets/zip.png') : window.URL.createObjectURL(item)}/>);
                         })
                       }
                     </div>
                     <ProgressBtn
-                      progress={this.state.uploadedFileNum !== null ? this.state.uploadedFileNum / this.state.files.length * 100 : null}
+                      progress={
+                        this.state.uploadedFileNum !== null ?
+                          this.state.uploadedFileNum / this.state.files.length * 100 :
+                          null}
                       onClick={this.upload.bind(this)}>
                       {typeof this.state.uploadedFileNum === 'number' && this.state.uploadedFileNum >= 0 ?
                         `上传中(${this.state.uploadedFileNum} / ${this.state.files.length})` :
@@ -91,7 +112,8 @@ export default class Uploader extends React.PureComponent {
               <Drag onDropFiles={(files) => {
                 let fileArray = [];
                 for (const file of files) {
-                  fileArray.push(file);
+                  if (Uploader.isAllowFile(file.name))
+                    fileArray.push(file);
                 }
                 this.setState({files: fileArray})
               }}/>

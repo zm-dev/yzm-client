@@ -25,5 +25,3 @@ ProgressBtn.propTypes = {
   onClick: PropTypes.func,
 };
 
-
-
