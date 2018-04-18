@@ -3,10 +3,10 @@ package handler
 import (
 	"net/http"
 	"github.com/zm-dev/yzm-client/pkg/httputils"
-	"fmt"
 	"github.com/gorilla/mux"
 	"strconv"
 	"github.com/zm-dev/yzm-client/distinguish"
+	"io/ioutil"
 )
 
 func CreateHTTPAPIHandler() (http.Handler) {
@@ -29,16 +29,14 @@ func batchUpload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
 		return httputils.InternalServerError("图片压缩包上传失败！").WithError(err)
 	}
 
-	yzmChan, err := distinguish.BatchProcess(category, batchImageFile, batchImageFileHeader.Size, distinguish.BatchDistinguish)
+	mappings, err := distinguish.BatchProcess(category, batchImageFile, batchImageFileHeader.Size, distinguish.BatchDistinguish)
 
 	if err != nil {
 		return httputils.InternalServerError("图片压缩包处理失败！").WithError(err)
 	}
 
-	for yzm := range yzmChan {
-		fmt.Println(yzm.ImageFilename + ", " + yzm.Yzm)
-	}
-
+	b, _ := ioutil.ReadAll(mappings)
+	w.Write(b)
 	return nil
 }
 
@@ -49,14 +47,14 @@ func upload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
 		return httputils.BadRequest("category 错误！").WithError(err)
 	}
 
-	imageFile, imageFileHeader, err := r.FormFile("image")
+	imageFile, _, err := r.FormFile("image")
 	defer imageFile.Close()
 
-	label, err := distinguish.Process(category, imageFileHeader.Filename, imageFile)
+	yzmStr, err := distinguish.Process(category, imageFile)
 	if err != nil {
 		return httputils.InternalServerError("图片识别出错!").WithError(err)
 	}
-	fmt.Println(label.ImageFilename, ",", label.Yzm)
+	w.Write([]byte(yzmStr))
 	return nil
 
 }
