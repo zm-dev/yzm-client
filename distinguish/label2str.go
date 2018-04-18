@@ -61,8 +61,15 @@ func label2StrFuncCategory0(label Label) string {
 		binaryCalc(ops, nums)
 	}
 
-	res := nums.Front().Value.(int)
-	yzm := label.Yzm + "=" + strconv.Itoa(res)
+	e := nums.Front()
+	yzm := label.Yzm
+
+	if e != nil {
+		res := e.Value.(int)
+		yzm += "=" + strconv.Itoa(res)
+
+	}
+
 	if label.ImageFilename == "" {
 		return yzm
 	}

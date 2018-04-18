@@ -1,6 +1,8 @@
 package distinguish
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestGetLabel2StrFunc(t *testing.T) {
 	_, err := GetLabel2StrFunc(100)
@@ -13,9 +15,12 @@ func TestGetLabel2StrFunc(t *testing.T) {
 		label       Label
 		mappingLine string
 	}{
-		{0, Label{"0000", "10+20*3"}, "0000,70\n"},
-		{0, Label{"0001", "1-20*3"}, "0001,-59\n"},
-		{0, Label{"0002", "10*2*3"}, "0002,60\n"},
+		{0, Label{"0000", "10+20*3"}, "0000,10+20*3=70\n"},
+		{0, Label{"0001", "1-20*3"}, "0001,1-20*3=-59\n"},
+		{0, Label{"0002", "10*2*3"}, "0002,10*2*3=60\n"},
+		{0, Label{"0002", "17-"}, "0002,17-\n"},
+		{0, Label{"0002", "17-**"}, "0002,17-**\n"},
+		{0, Label{"0002", "-11*7--99"}, "0002,-11*7--99\n"},
 
 		{1, Label{"0000", "ez6vD"}, "0000,EZ6VD\n"},
 		{1, Label{"0001", "VE3G8"}, "0001,VE3G8\n"},
