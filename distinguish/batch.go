@@ -13,12 +13,12 @@ import (
 	"sync"
 	"path"
 	"strings"
-	"fmt"
 )
 
 const (
 	imageSuffix  = ".jpg"
 	ignorePrefix = "__MACOSX/"
+	timeout      = 10 * time.Second
 )
 
 type mappingsReader struct {
@@ -39,6 +39,7 @@ func (m *mappingsReader) Read(p []byte) (n int, err error) {
 		if !ok {
 			break
 		}
+		label.ImageFilename = strings.TrimSuffix(label.ImageFilename, path.Ext(label.ImageFilename))
 		m.buf.WriteString(m.Label2StrFunc(label))
 	}
 	n, err = m.buf.Read(p)
@@ -70,39 +71,48 @@ func BatchProcess(category int, zipFile io.ReaderAt, size int64, bdfunc batchDis
 
 	imageChan := make(chan Image)
 	labelChan := make(chan Label)
-	ctx := context.Background()
+	ctx, _ := context.WithTimeout(context.Background(), timeout)
+	//defer cancel()
+
 	go bdfunc(ctx, imageChan, labelChan)
 	// go bdfunc(ctx, imageChan, labelChan)
 
 	go func() {
+		// defer cancel()
 		for _, image := range reader.File {
-			func(image *zip.File) {
-				if path.Ext(image.Name) != imageSuffix || strings.HasPrefix(image.Name, ignorePrefix) {
-					return
-				}
-				r, err := image.Open()
-				defer r.Close()
-				if err != nil {
+			isContinue := func(image *zip.File) bool {
 
-					log.Warnf("验证码图片打开失败，图片名称：%s。error:%+v", image.Name, err)
-					return
+				if path.Ext(image.Name) != imageSuffix || strings.HasPrefix(image.Name, ignorePrefix) {
+					return true
 				}
+
+				r, err := image.Open()
+				if err != nil {
+					log.Warnf("验证码图片打开失败，图片名称：%s。error:%+v", image.Name, err)
+					return true
+				}
+				defer r.Close()
+
 				b, err := ioutil.ReadAll(r)
 				if err != nil {
 					log.Warnf("验证码图片读取失败，图片名称：%s。error:%+v", image.Name, err)
-					return
+					return true
 				}
 
 				select {
 				case imageChan <- Image{Filename: image.Name, Category: category, Data: b}:
 				case <-ctx.Done():
-					break
+					return false
 				}
+				return true
 			}(image)
+
+			if !isContinue {
+				break
+			}
 		}
 		close(imageChan)
 	}()
-
 	return newMappingsReader(labelChan, label2StrFunc), nil
 }
 
@@ -117,13 +127,7 @@ type Label struct {
 	Yzm           string
 }
 
-const (
-	timeout = 5 * time.Second
-)
-
 func BatchDistinguish(ctx context.Context, imageChan <-chan Image, labelChan chan<- Label) error {
-	ctx, cancel := context.WithTimeout(ctx, timeout)
-	defer cancel()
 
 	distinguishClient, err := distinguish_service.Client()
 	if err != nil {
@@ -132,26 +136,25 @@ func BatchDistinguish(ctx context.Context, imageChan <-chan Image, labelChan cha
 
 	ok := true
 	var image Image
-
+DONE:
 	for ok {
+
 		select {
 		case image, ok = <-imageChan:
 			if ok {
-				fmt.Println(image.Filename)
 				response, err := distinguishClient.Distinguish(ctx, &pb.Image{Category: pb.Image_Category(image.Category), Data: image.Data})
+
 				if err != nil {
-					//f, _ := os.Create(image.Filename)
-					//f.Write(image.Data)
-					//f.Close()
 					log.Warnf("验证码识别出错：%+v", err)
 				} else {
 					labelChan <- Label{ImageFilename: image.Filename, Yzm: response.Yzm}
 				}
 			}
 		case <-ctx.Done():
-			break
+			break DONE
 		}
 	}
+
 	// todo 这里在多个协程里面关闭可能会有问题
 	close(labelChan)
 	return nil

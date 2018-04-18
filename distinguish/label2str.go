@@ -63,6 +63,7 @@ func label2StrFuncCategory0(label Label) string {
 
 	res := nums.Front().Value.(int)
 	yzm := label.Yzm + "=" + strconv.Itoa(res)
+
 	if label.ImageFilename == "" {
 		return yzm
 	}
