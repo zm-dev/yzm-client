@@ -46,7 +46,6 @@ func (m *mappingsReader) Read(p []byte) (n int, err error) {
 	b := m.buf.Bytes()
 	m.buf.Reset()
 	m.buf.Write(b)
-
 	return
 
 }

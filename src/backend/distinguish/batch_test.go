@@ -5,6 +5,7 @@ import (
 	"os"
 	"bytes"
 	"io/ioutil"
+	"strings"
 )
 
 func TestBatchProcess(t *testing.T) {
@@ -35,25 +36,23 @@ func TestBatchProcess(t *testing.T) {
 			t.Error(err)
 		}
 
-		mappingsBytes, err := ioutil.ReadAll(mappings)
+		expectedMF, err := os.Open(test.mappingsFilename)
+		if err != nil {
+			t.Error(err)
+		}
+		defer expectedMF.Close()
+		expectedBytes, err := ioutil.ReadAll(expectedMF)
 		if err != nil {
 			t.Error(err)
 		}
 
-		mf, err := os.Open(test.mappingsFilename)
-		if err != nil {
-			t.Error(err)
-		}
-		defer mf.Close()
+		ml := LoadMappingLines(mappings)
 
-		mfBytes, err := ioutil.ReadAll(mf)
-		if err != nil {
-			t.Error(err)
-		}
+		expectedBytes = bytes.TrimRight(expectedBytes, "\r\n")
+		dml := []byte(strings.TrimRight(ml.ToSortedString(), "\r\n"))
 
-		if !bytes.Equal(bytes.TrimSuffix(mappingsBytes, []byte("\r\n")), bytes.TrimSuffix(mfBytes, []byte("\r\n"))) {
+		if !bytes.Equal(expectedBytes, dml) {
 			t.Errorf("zipFilename: %s, 识别的内容和 mappingsFilename: %s, 不符", test.zipFilename, test.mappingsFilename)
 		}
 	}
-
 }
