@@ -11,7 +11,8 @@ export default class Uploader extends React.PureComponent {
       files: []
     };
   }
-
+  upload () {
+  }
   render() {
     return (
       <div className="uploader_wrapper">
@@ -19,7 +20,7 @@ export default class Uploader extends React.PureComponent {
           this.state.files.length > 0 ?
             <div className="file_list_wrapper">
               <FileList files={this.state.files}/>
-              <ProgressBtn progress={30}>上传识别</ProgressBtn>
+              <ProgressBtn onClick={this.upload.bind(this)} progress={30}>上传识别</ProgressBtn>
             </div> :
             <Drag onDropFiles={(files) => {
               this.setState({files})
