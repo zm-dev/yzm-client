@@ -20,5 +20,6 @@ Complete.propTypes = {
   onReload: PropTypes.func.isRequired,
 };
 Complete.defaultProps = {
-  onReload: () => {}
+  onReload: () => {
+  }
 };

@@ -32,16 +32,18 @@
   position: absolute;
 }
 
-.drag .border .info,  .complete .info {
+.drag .border .info, .complete .info {
   color: #999;
 }
+
 .complete {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-.complete button{
+
+.complete button {
   background-color: #fff;
   border: 0;
   font-size: 12px;
@@ -49,6 +51,7 @@
   cursor: pointer;
   outline: none;
 }
+
 .drag.on_drag .border {
   border: solid rgb(188, 186, 188);
   box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 3px;

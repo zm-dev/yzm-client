@@ -8,13 +8,13 @@
   cursor: pointer;
   flex-shrink: 0;
 }
-.progress_btn .text{
+
+.progress_btn .text {
   color: #fff;
   line-height: 40px;
   z-index: 1;
   position: relative;
 }
-
 
 .progress_btn .progress {
   position: absolute;
@@ -25,9 +25,11 @@
   z-index: 0;
   transition: width .3s;
 }
-.progress_btn[disabled]{
+
+.progress_btn[disabled] {
   cursor: not-allowed;
 }
+
 .progress_btn:not([disabled]):hover {
   background-color: rgb(131, 189, 109);
 }

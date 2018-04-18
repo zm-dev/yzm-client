@@ -37,10 +37,12 @@ export default class Uploader extends React.PureComponent {
     }
     this.setState({showResultListDialog: true});
   }
-  closeResultListDialog () {
+
+  closeResultListDialog() {
     this.setState({showResultListDialog: false});
   }
-  reload () {
+
+  reload() {
     this.setState({
       files: [],
       uploadedFileNum: null,
@@ -48,6 +50,7 @@ export default class Uploader extends React.PureComponent {
       showResultListDialog: false,
     });
   }
+
   render() {
     return (
       <React.Fragment>
@@ -57,34 +60,34 @@ export default class Uploader extends React.PureComponent {
           {
             this.state.files.length > 0 ?
               this.state.uploadedFileNum >= this.state.files.length ?
-                <Complete onReload={this.reload.bind(this)}/>:
-              <React.Fragment>
-                <div className="select_category_wrapper">
-                  <SelectCategory onSelect={(i) => {
-                    this.setState({currentCategory: i});
-                  }}/>
-                </div>
-                <div className="file_list_wrapper">
-                  <div className="file_list">
-                    {
-                      this.state.files.map((item, i) => {
-                        return (<FileItem
-                          progress={item.progress}
-                          key={i}
-                          fileName={item.name}
-                          img={window.URL.createObjectURL(item)}/>);
-                      })
-                    }
+                <Complete onReload={this.reload.bind(this)}/> :
+                <React.Fragment>
+                  <div className="select_category_wrapper">
+                    <SelectCategory onSelect={(i) => {
+                      this.setState({currentCategory: i});
+                    }}/>
                   </div>
-                  <ProgressBtn
-                    progress={this.state.uploadedFileNum !== null ? this.state.uploadedFileNum / this.state.files.length * 100 : null}
-                    onClick={this.upload.bind(this)}>
-                    {typeof this.state.uploadedFileNum === 'number' && this.state.uploadedFileNum >= 0 ?
-                      `上传中(${this.state.uploadedFileNum} / ${this.state.files.length})` :
-                      '上传识别'}
-                  </ProgressBtn>
-                </div>
-              </React.Fragment> :
+                  <div className="file_list_wrapper">
+                    <div className="file_list">
+                      {
+                        this.state.files.map((item, i) => {
+                          return (<FileItem
+                            progress={item.progress}
+                            key={i}
+                            fileName={item.name}
+                            img={window.URL.createObjectURL(item)}/>);
+                        })
+                      }
+                    </div>
+                    <ProgressBtn
+                      progress={this.state.uploadedFileNum !== null ? this.state.uploadedFileNum / this.state.files.length * 100 : null}
+                      onClick={this.upload.bind(this)}>
+                      {typeof this.state.uploadedFileNum === 'number' && this.state.uploadedFileNum >= 0 ?
+                        `上传中(${this.state.uploadedFileNum} / ${this.state.files.length})` :
+                        '上传识别'}
+                    </ProgressBtn>
+                  </div>
+                </React.Fragment> :
               <Drag onDropFiles={(files) => {
                 let fileArray = [];
                 for (const file of files) {
