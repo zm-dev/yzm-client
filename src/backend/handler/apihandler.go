@@ -57,7 +57,10 @@ func upload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
 		return httputils.InternalServerError("图片识别出错!").WithError(err)
 	}
 
-	b, err := json.Marshal(map[string]string{"res": yzmStr})
+	b, err := json.Marshal(struct {
+		Res string `json:"res"`
+	}{Res: yzmStr})
+
 	if err != nil {
 		return httputils.InternalServerError("").WithError(err)
 	}
