@@ -43,8 +43,10 @@ func (m *mappingsReader) Read(p []byte) (n int, err error) {
 		m.buf.WriteString(m.Label2StrFunc(label))
 	}
 	n, err = m.buf.Read(p)
+	b := m.buf.Bytes()
 	m.buf.Reset()
-	m.buf.Write(m.buf.Bytes())
+	m.buf.Write(b)
+
 	return
 
 }

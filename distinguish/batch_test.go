@@ -51,10 +51,6 @@ func TestBatchProcess(t *testing.T) {
 			t.Error(err)
 		}
 
-		f1, _ := os.Create("1.txt")
-		f1.Write(mappingsBytes)
-		f1.Close()
-
 		if !bytes.Equal(bytes.TrimSuffix(mappingsBytes, []byte("\r\n")), bytes.TrimSuffix(mfBytes, []byte("\r\n"))) {
 			t.Errorf("zipFilename: %s, 识别的内容和 mappingsFilename: %s, 不符", test.zipFilename, test.mappingsFilename)
 		}
