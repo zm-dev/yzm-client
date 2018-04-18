@@ -10,7 +10,7 @@ export default class FileItem extends React.PureComponent {
           <img
             src={this.props.img}
             alt=""/>
-          <Progress progress={10} className="progress_bar"/>
+          {this.props.progress && <Progress progress={this.props.progress} className="progress_bar"/>}
         </div>
         <p className="file_name" title={this.props.fileName}>{this.props.fileName}</p>
       </div>
@@ -21,4 +21,5 @@ export default class FileItem extends React.PureComponent {
 FileItem.propTypes = {
   img: PropTypes.string.isRequired,
   fileName: PropTypes.string.isRequired,
+  progress: PropTypes.number,
 };
