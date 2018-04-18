@@ -1,33 +1,35 @@
-.progress_btn{
+.progress_btn {
   border-radius: 3px;
   overflow: hidden;
   position: relative;
-}
-.progress_btn .btn {
   background-color: rgb(144, 196, 124);
-  border: 0;
-  color: #fff;
-  font-size: 14px;
-  outline: none;
-  line-height: 40px;
   height: 40px;
+  text-align: center;
   cursor: pointer;
-  width: 100%;
+  flex-shrink: 0;
+}
+
+.progress_btn .text {
+  color: #fff;
+  line-height: 40px;
+  z-index: 1;
+  position: relative;
 }
 
 .progress_btn .progress {
   position: absolute;
   left: 0;
   top: 0;
-  width: 30%;
   height: 100%;
   background-color: rgb(107, 155, 224);
+  z-index: 0;
+  transition: width .3s;
 }
 
-.progress_btn .btn[disabled] {
-  background-color: rgb(111, 111, 111);
+.progress_btn[disabled] {
+  cursor: not-allowed;
 }
 
-.progress_btn .btn:not([disabled]):hover {
+.progress_btn:not([disabled]):hover {
   background-color: rgb(131, 189, 109);
 }

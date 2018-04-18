@@ -2,14 +2,15 @@ import React from 'react';
 import './select-category.css';
 import PropTypes from 'prop-types';
 
-export default class SelectCategory extends React.PureComponent{
-  constructor (props) {
+export default class SelectCategory extends React.PureComponent {
+  constructor(props) {
     super(props);
     this.state = {
       current: 0,
     };
     this.props.onSelect(this.state.current);
   }
+
   render() {
     let categories = [];
     for (let i = 0; i < 5; i++) {
@@ -32,5 +33,6 @@ SelectCategory.propTypes = {
   onSelect: PropTypes.func
 };
 SelectCategory.defaultProps = {
-  onSelect: () => {}
+  onSelect: () => {
+  }
 };

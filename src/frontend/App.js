@@ -8,15 +8,15 @@ class App extends Component {
       <div className="container">
         <div className="left">
           <div className="logo">
-            <img src={require('./assets/logo.svg')} alt="A16 验证码识别" />
+            <img src={require('./assets/logo.svg')} alt="A16 验证码识别"/>
           </div>
           <h1>A16 验证码识别</h1>
           <div className="copy">
-            copyright &copy; 知明
+            copyright &copy; 2017
           </div>
         </div>
         <div className="right">
-          <Uploader />
+          <Uploader/>
         </div>
       </div>
     );
