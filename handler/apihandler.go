@@ -10,8 +10,11 @@ import (
 )
 
 func CreateHTTPAPIHandler(r *mux.Router) {
-	r.Handle("/batch_upload", httputils.APPHandler(batchUpload))
-	r.Handle("/upload", httputils.APPHandler(upload))
+	api := r.PathPrefix("/api").Subrouter()
+	{
+		api.Handle("/batch_upload", httputils.APPHandler(batchUpload))
+		api.Handle("/upload", httputils.APPHandler(upload))
+	}
 }
 
 func batchUpload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
