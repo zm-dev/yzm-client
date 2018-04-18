@@ -18,7 +18,7 @@ import (
 const (
 	imageSuffix  = ".jpg"
 	ignorePrefix = "__MACOSX/"
-	timeout      = 10 * time.Second
+	timeout      = 500 * time.Second
 )
 
 type mappingsReader struct {
@@ -54,7 +54,7 @@ func newMappingsReader(labelRecvChan <-chan Label, label2StrFunc Label2StrFunc) 
 	return &mappingsReader{buf: &bytes.Buffer{}, LabelRecvChan: labelRecvChan, Label2StrFunc: label2StrFunc}
 }
 
-type batchDistinguishFunc func(ctx context.Context, imageChan <-chan Image, labelChan chan<- Label) error
+type batchDistinguishFunc func(ctx context.Context, imageChan <-chan Image, labelChan chan<- Label, wg *sync.WaitGroup) error
 
 func BatchProcess(category int, zipFile io.ReaderAt, size int64, bdfunc batchDistinguishFunc) (mappings io.Reader, err error) {
 
@@ -74,10 +74,14 @@ func BatchProcess(category int, zipFile io.ReaderAt, size int64, bdfunc batchDis
 	labelChan := make(chan Label)
 	ctx, _ := context.WithTimeout(context.Background(), timeout)
 	//defer cancel()
-
-	go bdfunc(ctx, imageChan, labelChan)
-	// go bdfunc(ctx, imageChan, labelChan)
-
+	wg := &sync.WaitGroup{}
+	go bdfunc(ctx, imageChan, labelChan, wg)
+	go bdfunc(ctx, imageChan, labelChan, wg)
+	//go bdfunc(ctx, imageChan, labelChan, wg)
+	go func() {
+		defer close(labelChan)
+		wg.Wait()
+	}()
 	go func() {
 		// defer cancel()
 		for _, image := range reader.File {
@@ -128,8 +132,9 @@ type Label struct {
 	Yzm           string
 }
 
-func BatchDistinguish(ctx context.Context, imageChan <-chan Image, labelChan chan<- Label) error {
-
+func BatchDistinguish(ctx context.Context, imageChan <-chan Image, labelChan chan<- Label, wg *sync.WaitGroup) error {
+	defer wg.Done()
+	wg.Add(1)
 	distinguishClient, err := distinguish_service.Client()
 	if err != nil {
 		return err
@@ -156,7 +161,5 @@ DONE:
 		}
 	}
 
-	// todo 这里在多个协程里面关闭可能会有问题
-	close(labelChan)
 	return nil
 }
