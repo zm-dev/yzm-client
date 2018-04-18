@@ -1,0 +1,9 @@
+.idea
+.vscode
+
+# macOS
+.DS_Store
+
+.cache
+/static
+node_modules/

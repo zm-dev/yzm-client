@@ -13,8 +13,8 @@
     "redux": "^4.0.0"
   },
   "scripts": {
-    "start": "parcel watch frontend/index.html -d static",
-    "build": "cross-env NODE_ENV=production parcel build frontend/index.html -d static"
+    "start": "parcel watch src/frontend/index.html -d static",
+    "build": "cross-env NODE_ENV=production parcel build src/frontend/index.html -d static"
   },
   "devDependencies": {
     "redux-devtools": "^3.4.1",
