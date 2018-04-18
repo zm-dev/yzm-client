@@ -28,6 +28,11 @@
   flex-direction: column;
   transition: all .3s;
   position: relative;
+  cursor: pointer;
+}
+
+.drag .file_input{
+  display: none;
 }
 
 .drag .border .drag_box {

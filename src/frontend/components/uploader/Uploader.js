@@ -40,7 +40,6 @@ export default class Uploader extends React.PureComponent {
       const res = await http.post(isZip ? '/batch_upload' : '/upload', form, {
         headers: {'Content-Type': 'multipart/form-data'},
         onUploadProgress(progressEvent) {
-          console.log(progressEvent);
           const {loaded, total} = progressEvent;
           currentFile.progress = loaded / total * 100;
           self.forceUpdate();
