@@ -24,11 +24,14 @@ func Process(category int, r io.Reader) (yzmStr string, err error) {
 	}
 	yzm, err := distinguishClient.Distinguish(ctx, &pb.Image{Category: pb.Image_Category(category), Data: b})
 
-	label2StrFunc, err := GetLabel2StrFunc(category)
-
 	if err != nil {
 		return "", err
 	}
 
+	label2StrFunc, err := GetLabel2StrFunc(category)
+	
+	if err != nil {
+		return "", err
+	}
 	return label2StrFunc(Label{"", yzm.Yzm}), nil
 }
