@@ -142,7 +142,7 @@ func BatchDistinguish(ctx context.Context, imageChan <-chan Image, labelChan cha
 
 	ok := true
 	var image Image
-DONE:
+// DONE:
 	for ok {
 
 		select {
@@ -157,7 +157,8 @@ DONE:
 				}
 			}
 		case <-ctx.Done():
-			break DONE
+			ok = false
+			// break DONE
 		}
 	}
 
