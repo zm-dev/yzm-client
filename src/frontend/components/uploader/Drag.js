@@ -6,7 +6,8 @@ export default class Uploader extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      onDrag: false
+      onDrag: false,
+      fileInput: null,
     };
   }
 
@@ -23,10 +24,19 @@ export default class Uploader extends React.PureComponent {
     this.props.onDropFiles(e.dataTransfer.files);
   }
 
+  onChange() {
+    this.props.onDropFiles(this.state.fileInput.files);
+  }
+
   render() {
     return (
       <div className={`drag${this.state.onDrag ? ' on_drag' : ''}`}>
-        <div className="border">
+        <input onChange={this.onChange.bind(this)} ref={(fileInput) => {
+          this.state.fileInput = fileInput
+        }} className="file_input" type="file"/>
+        <div onClick={() => {
+          this.state.fileInput.click();
+        }} className="border">
           <div
             className="drag_box"
             onDragEnter={this.onDragEnter.bind(this)}
@@ -38,7 +48,7 @@ export default class Uploader extends React.PureComponent {
           />
           <Idle/>
           <h2>{this.state.onDrag ? 'Drop' : 'Drag & Drop'}</h2>
-          <p className="info">请将验证码图片拖入此</p>
+          <p className="info">拖入图片或点击上传</p>
         </div>
       </div>
     );

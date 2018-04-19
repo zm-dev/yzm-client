@@ -1,3 +1,6 @@
+html, body, #root, .container{
+  height: 100%;
+}
 .container {
   max-width: 890px;
   min-width: 300px;
@@ -5,7 +8,6 @@
   display: flex;
   align-items: center;
   margin: auto;
-  min-height: 100vh;
 }
 .left {
   align-items: center;

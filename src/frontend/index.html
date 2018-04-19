@@ -8,8 +8,48 @@
   <link rel="shortcut icon" href="./assets/favicon.ico">
 
   <title>A16 验证码识别</title>
+  <style>
+    .old_browser{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      z-index: 100;
+      padding: 50px;
+    }
+    .old_browser .err_img{
+      text-align: center;
+    }
+    .old_browser h2{
+      text-align: center;
+      margin-top: 50px;
+    }
+    .old_browser .chrome_logo{
+      width: 300px;
+    }
+    .chrome{
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      color: #999;
+    }
+  </style>
 </head>
 <body>
+<!--[if lt IE 10]>
+
+<div class="old_browser">
+  <div class="err_img"><img src="./bug.png" alt=""></div>
+  <h2>您正在使用的浏览器版本过低</h2>
+  <a class="chrome" href="https://www.google.cn/chrome/">
+    <img class="chrome_logo" src="./chrome_logo.png" alt="chrome 浏览器">
+    <p>请使用最新版本的Chrome浏览器</p>
+  </a>
+</div>
+<![endif]-->
+
 <noscript>
   You need to enable JavaScript to run this app.
 </noscript>

@@ -10,7 +10,11 @@
 .drag, .complete {
   height: 100%;
 }
-
+.complete a{
+  text-decoration: none;
+  font-weight: 700;
+  margin-right: 10px;
+}
 .uploader_wrapper, .drag .border {
   border-radius: 6px;
 }
@@ -24,6 +28,11 @@
   flex-direction: column;
   transition: all .3s;
   position: relative;
+  cursor: pointer;
+}
+
+.drag .file_input{
+  display: none;
 }
 
 .drag .border .drag_box {
