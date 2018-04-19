@@ -4,6 +4,8 @@
 .DS_Store
 
 /static
+!/static/bug.png
+!/static/chrome_logo.png
 
 # dependencies
 /node_modules
