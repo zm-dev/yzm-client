@@ -9,6 +9,7 @@ RUN npm install --registry=https://registry.npm.taobao.org && \
 FROM alpine:latest
 COPY --from=builder /go/src/github.com/zm-dev/yzm-client/main /app/main
 COPY --from=builder /go/src/github.com/zm-dev/yzm-client/static/ /app/static/
+COPY --from=builder /go/src/github.com/zm-dev/yzm-client/mappings/ /app/mappings/
 WORKDIR /app
 RUN chmod +x /app/main
 CMD ["./main"]
