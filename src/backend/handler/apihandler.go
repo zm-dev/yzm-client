@@ -9,7 +9,7 @@ import (
 	"encoding/json"
 	"github.com/satori/go.uuid"
 	"io/ioutil"
-	"fmt"
+	"io"
 )
 
 const mappingsDir = "./mappings/"
@@ -57,7 +57,7 @@ func batchUpload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
 	jsonBytes, _ := json.Marshal(struct {
 		Category    int    `json:"category"`
 		DownloadUrl string `json:"download_url"`
-	}{Category: category, DownloadUrl: "download?id=" + u})
+	}{Category: category + 1, DownloadUrl: "download?id=" + u})
 	w.Write(jsonBytes)
 	return nil
 }
@@ -74,6 +74,7 @@ func upload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
 
 	if distinguish.NeedAutoCategory(category) {
 		category, err = distinguish.AutoCategory(imageFile)
+		imageFile.Seek(io.SeekStart, io.SeekStart)
 		if err != nil {
 			return httputils.BadRequest(err.Error()).WithError(err)
 		}
@@ -86,7 +87,7 @@ func upload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
 	b, err := json.Marshal(struct {
 		Category int    `json:"category"`
 		Res      string `json:"res"`
-	}{Category: category, Res: yzmStr})
+	}{Category: category + 1, Res: yzmStr})
 
 	if err != nil {
 		return httputils.InternalServerError("").WithError(err)

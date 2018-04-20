@@ -17,10 +17,12 @@ func NeedAutoCategory(category int) bool {
 
 func AutoCategory(imageFile io.Reader) (category int, err error) {
 	config, err := jpeg.DecodeConfig(imageFile)
+
+	// defer imageFile.Seek(io.SeekStart, io.SeekStart)
+
 	if err != nil {
 		return -1, err
 	}
-
 	if config.Height == 80 && config.Width == 350 {
 		return 0, nil
 	} else if config.Height == 60 && config.Width == 200 {
@@ -30,6 +32,7 @@ func AutoCategory(imageFile io.Reader) (category int, err error) {
 	} else if config.Height == 45 && config.Width == 150 {
 		return 3, nil
 	}
+
 	return -1, ErrCannotAutoCategory
 }
 
