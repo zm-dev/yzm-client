@@ -88,6 +88,7 @@ func BatchProcess(category int, zipFile io.ReaderAt, size int64, bdfunc batchDis
 			isContinue := func(image *zip.File) bool {
 
 				if path.Ext(image.Name) != imageSuffix || strings.HasPrefix(image.Name, ignorePrefix) {
+					// 不是图片文件
 					return true
 				}
 
@@ -142,7 +143,7 @@ func BatchDistinguish(ctx context.Context, imageChan <-chan Image, labelChan cha
 
 	ok := true
 	var image Image
-// DONE:
+	// DONE:
 	for ok {
 
 		select {

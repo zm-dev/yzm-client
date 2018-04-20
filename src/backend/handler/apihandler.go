@@ -33,6 +33,13 @@ func batchUpload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
 	}
 	defer batchImageFile.Close()
 
+	if distinguish.NeedAutoCategory(category) {
+		category, err = distinguish.ZipAutoCategory(batchImageFile, batchImageFileHeader.Size)
+		if err != nil {
+			return httputils.BadRequest(err.Error()).WithError(err)
+		}
+	}
+
 	mappings, err := distinguish.BatchProcess(category, batchImageFile, batchImageFileHeader.Size, distinguish.BatchDistinguish)
 
 	if err != nil {
@@ -47,8 +54,9 @@ func batchUpload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
 	}
 
 	jsonBytes, _ := json.Marshal(struct {
+		Category    int    `json:"category"`
 		DownloadUrl string `json:"download_url"`
-	}{DownloadUrl: "download?id=" + u})
+	}{Category: category, DownloadUrl: "download?id=" + u})
 	w.Write(jsonBytes)
 	return nil
 }
@@ -63,14 +71,22 @@ func upload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
 	imageFile, _, err := r.FormFile("image")
 	defer imageFile.Close()
 
+	if distinguish.NeedAutoCategory(category) {
+		category, err = distinguish.AutoCategory(imageFile)
+		if err != nil {
+			return httputils.BadRequest(err.Error()).WithError(err)
+		}
+	}
+
 	yzmStr, err := distinguish.Process(category, imageFile)
 	if err != nil {
 		return httputils.InternalServerError("图片识别出错!").WithError(err)
 	}
 
 	b, err := json.Marshal(struct {
-		Res string `json:"res"`
-	}{Res: yzmStr})
+		Category int    `json:"category"`
+		Res      string `json:"res"`
+	}{Category: category, Res: yzmStr})
 
 	if err != nil {
 		return httputils.InternalServerError("").WithError(err)
