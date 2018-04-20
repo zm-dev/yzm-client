@@ -118,7 +118,7 @@ export default class Uploader extends React.PureComponent {
                           null}
                       onClick={this.upload.bind(this)}>
                       {typeof this.state.uploadedFileNum === 'number' && this.state.uploadedFileNum >= 0 ?
-                        `上传中(${this.state.uploadedFileNum} / ${this.state.files.length})` :
+                        `识别中(${this.state.uploadedFileNum} / ${this.state.files.length})` :
                         '上传识别'}
                     </ProgressBtn>
                   </div>
