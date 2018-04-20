@@ -1,3 +1,17 @@
 version: "3"
 services:
   yzm:
+    image: registry.cn-hangzhou.aliyuncs.com/ty1997/yzm-client:1.0
+    restart: always
+    environment:
+      - distinguish_server_address=yzm_rpc_server:8080
+    ports:
+      - "8102:8000"
+    links:
+      - yzm_rpc_server
+
+  yzm_rpc_server:
+    image: registry.cn-hangzhou.aliyuncs.com/ty1997/yzm-demo:1.1
+    restart: always
+    expose:
+      - "8080"
