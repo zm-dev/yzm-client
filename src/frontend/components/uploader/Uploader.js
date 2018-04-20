@@ -7,6 +7,7 @@ import FileItem from './FileItem';
 import http from '../../utils/http';
 import Complete from './Complete';
 import ResultList from '../result-list/ResultList';
+import Notifications, {notify} from 'react-notify-toast';
 
 export default class Uploader extends React.PureComponent {
   constructor(props) {
@@ -37,21 +38,27 @@ export default class Uploader extends React.PureComponent {
       form.append('image', currentFile);
       form.append('category', String(this.state.currentCategory));
       const isZip = Uploader.getExtName(currentFile.name) === 'zip';
-      const res = await http.post(isZip ? '/batch_upload' : '/upload', form, {
-        headers: {'Content-Type': 'multipart/form-data'},
-        onUploadProgress(progressEvent) {
-          const {loaded, total} = progressEvent;
-          currentFile.progress = loaded / total * 100;
-          self.forceUpdate();
+      try {
+        const res = await http.post(isZip ? '/batch_upload' : '/upload', form, {
+          headers: {'Content-Type': 'multipart/form-data'},
+          onUploadProgress(progressEvent) {
+            const {loaded, total} = progressEvent;
+            currentFile.progress = loaded / total * 100;
+            self.forceUpdate();
+          }
+        });
+        if (!isZip) {
+          currentFile.res = res.data.res;
+          currentFile.category = res.data.category;
+        } else {
+          this.setState({downloadUrl: res.data.download_url});
         }
-      });
-      if (!isZip) {
-        currentFile.res = res.data.res;
-        currentFile.category = res.data.category;
-      } else {
-        this.setState({downloadUrl: res.data.download_url});
+        this.setState({uploadedFileNum: this.state.uploadedFileNum + 1});
+      } catch (e) {
+        notify.show(currentFile.name + ' ' + e.response.data.message, 'error', 3000);
+        currentFile.res = e.response.data.message;
+        this.setState({uploadedFileNum: this.state.uploadedFileNum + 1});
       }
-      this.setState({uploadedFileNum: this.state.uploadedFileNum + 1});
     }
     const exceptZipFiles = this.state.files.filter(f => Uploader.getExtName(f.name) !== 'zip');
     if (exceptZipFiles.length > 0) {
@@ -75,6 +82,7 @@ export default class Uploader extends React.PureComponent {
   render() {
     return (
       <React.Fragment>
+        <Notifications/>
         {this.state.showResultListDialog &&
         <ResultList onClose={this.closeResultListDialog.bind(this)} files={this.state.files}/>}
         <div className="uploader_wrapper">
