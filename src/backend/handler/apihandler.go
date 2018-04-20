@@ -9,7 +9,6 @@ import (
 	"encoding/json"
 	"github.com/satori/go.uuid"
 	"io/ioutil"
-	"fmt"
 )
 
 const mappingsDir = "./mappings/"
