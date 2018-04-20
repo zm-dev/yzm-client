@@ -6,18 +6,18 @@ export default class SelectCategory extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      current: 0,
+      current: -1,
     };
     this.props.onSelect(this.state.current);
   }
 
   render() {
     let categories = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = -1; i < 4; i++) {
       categories.push(<div onClick={() => {
         this.setState({current: i});
         this.props.onSelect(i);
-      }} key={i} className={`item${this.state.current === i ? ' active' : ''}`}>第{i + 1}类</div>)
+      }} key={i} className={`item${this.state.current === i ? ' active' : ''}`}>{i === -1 ? '自动' : `第${i + 1}类`}</div>)
     }
     return (
       <div className="select_category">
