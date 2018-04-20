@@ -48,7 +48,7 @@ func batchUpload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
 	}
 	content := distinguish.LoadMappingLines(mappings).ToSortedString()
 
-	u := uuid.Must(uuid.NewV4()).String()
+	u := uuid.NewV4().String()
 	err = ioutil.WriteFile(mappingsDir+u, []byte(content), 0644)
 	if err != nil {
 		return httputils.InternalServerError("生成" + mappingsFileName + "文件失败！").WithError(err)
