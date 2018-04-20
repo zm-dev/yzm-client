@@ -2,7 +2,7 @@ FROM golang:alpine as builder
 RUN apk update && apk add nodejs
 COPY . /go/src/github.com/zm-dev/yzm-client
 WORKDIR /go/src/github.com/zm-dev/yzm-client
-RUN go build -v -o main /go/src/github.com/zm-dev/yzm-client/src/backend/main.go
+RUN go build -v -o main /go/src/github.com/zm-dev/yzm-client/main.go
 RUN npm install --registry=https://registry.npm.taobao.org && \
     npm run build
 

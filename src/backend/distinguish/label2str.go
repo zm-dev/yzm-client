@@ -20,6 +20,7 @@ func GetLabel2StrFunc(category int) (Label2StrFunc, error) {
 	case 4:
 		return label2StrFuncCategory4, nil
 	default:
+
 		return nil, errors.New("nonsupport category")
 	}
 }
