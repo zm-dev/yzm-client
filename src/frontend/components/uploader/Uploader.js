@@ -47,6 +47,7 @@ export default class Uploader extends React.PureComponent {
       });
       if (!isZip) {
         currentFile.res = res.data.res;
+        currentFile.category = res.data.category;
       } else {
         this.setState({downloadUrl: res.data.download_url});
       }

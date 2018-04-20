@@ -29,7 +29,7 @@ func Process(category int, r io.Reader) (yzmStr string, err error) {
 	}
 
 	label2StrFunc, err := GetLabel2StrFunc(category)
-	
+
 	if err != nil {
 		return "", err
 	}

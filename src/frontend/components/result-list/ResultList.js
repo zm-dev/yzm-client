@@ -14,6 +14,7 @@ export default class ResultList extends React.PureComponent {
           <tr>
             <th className="pic">图片</th>
             <th>文件名</th>
+            <th>类别</th>
             <th>识别结果</th>
           </tr>
           </thead>
@@ -23,6 +24,7 @@ export default class ResultList extends React.PureComponent {
               <tr key={i}>
                 <td><img src={window.URL.createObjectURL(item)} alt={item.name}/></td>
                 <td>{item.name}</td>
+                <td>{item.category}</td>
                 <td>{item.res}</td>
               </tr>);
           })}

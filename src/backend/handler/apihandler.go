@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"github.com/satori/go.uuid"
 	"io/ioutil"
+	"fmt"
 )
 
 const mappingsDir = "./mappings/"
@@ -77,7 +78,6 @@ func upload(w http.ResponseWriter, r *http.Request) httputils.HTTPError {
 			return httputils.BadRequest(err.Error()).WithError(err)
 		}
 	}
-
 	yzmStr, err := distinguish.Process(category, imageFile)
 	if err != nil {
 		return httputils.InternalServerError("图片识别出错!").WithError(err)
