@@ -1,7 +1,7 @@
 version: "3"
 services:
   yzm:
-    image: registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm-client
+    image: registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm-client:latest
     restart: always
     environment:
       - distinguish_server_address=yzm_rpc_server:8080
@@ -11,7 +11,7 @@ services:
       - yzm_rpc_server
 
   yzm_rpc_server:
-    image: registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm
+    image: registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm:latest
     restart: always
     expose:
       - "8080"

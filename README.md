@@ -41,12 +41,12 @@ docker-compose up -d
 
 获取帮助命令:
 ```
-docker run registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm /usr/bin/env python /app/run.py -h
+docker run registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm:latest /usr/bin/env python /app/run.py -h
 ```
 
 批量识别命令:
 ```
-docker run -v /root/yzm/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm /usr/bin/env python /app/run.py -o /test/data-1/mappings.txt /test/data-1/
+docker run -v /root/yzm/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm:latest /usr/bin/env python /app/run.py -o /test/data-1/mappings.txt /test/data-1/
 ```
 命令执行完毕后会得到以下输出:
 ```
@@ -59,7 +59,7 @@ docker run -v /root/yzm/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm 
 
 单个识别命令:
 ```
-docker run -v /root/yzm/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm /usr/bin/env python /app/run.py -o /test/data-2/mappings.txt /test/data-2/0000.jpg
+docker run -v /root/yzm/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm:latest /usr/bin/env python /app/run.py -o /test/data-2/mappings.txt /test/data-2/0000.jpg
 ```
 命令执行完毕后会得到以下输出:
 ```
@@ -73,7 +73,7 @@ docker run -v /root/yzm/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm 
 
 执行命令:
 ```
-docker run -v /root/data-5/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm /usr/bin/env python /app/run.py -c 5 -o /test/mappings.txt /test/
+docker run -v /root/data-5/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm:latest /usr/bin/env python /app/run.py -c 5 -o /test/mappings.txt /test/
 ```
 命令执行完毕后会得到以下输出:
 ```
