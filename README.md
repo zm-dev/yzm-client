@@ -25,15 +25,15 @@ docker-compose up -d
 ## 生成 mappings.txt 的方法:
 1. 上传 `zip` 文件到网站进行识别
 首先将待识别的验证码打包成 `.zip` 的文件，然后在我们提供的验证码识别网站上面直接上传`.zip` 文件，并点击识别。等待识别完成后点击下载 `mappings.txt` 即可
-<img src="http://cdn.hiphop.e8net.cn/yzm/5.png?1" />
-<p style="text-align:center;width:100%">上传 .zip 文件</p>
-<img src="http://cdn.hiphop.e8net.cn/yzm/6.png?1" />
-<p style="text-align:center;width:100%">点击下载 mappings.txt 文件</p>
+<img src="https://github.com/zm-dev/yzm-client/blob/master/screenshots/5.png" />
+<p style="text-align:center;width:100%">上图为 上传 .zip 文件 界面</p>
+<img src="https://github.com/zm-dev/yzm-client/blob/master/screenshots/6.png" />
+<p style="text-align:center;width:100%">上图为 点击下载 mappings.txt 文件 界面</p>
 
 2. <span style="color:red">(推荐方法)</span>上面的方法识别速度较慢，因为通过 [grpc](https://github.com/grpc/grpc) 与底层的[tensorflow 验证码识别服务](https://gitee.com/_admin/yzm)通信毕竟有延时。我们可以直接使用[tensorflow 验证码识别服务](https://gitee.com/_admin/yzm)中提供的命令行工具来生成 `mappings.txt`
 
 ### 首先准备以下文件(假设以下文件存放在 `/root/yzm` 下！！！)
-<img src="http://cdn.hiphop.e8net.cn/yzm/tree_1_4.jpg?1">
+<img src="https://github.com/zm-dev/yzm-client/blob/master/screenshots/tree_1_4.jpg">
 
 
 获取帮助命令:
@@ -63,5 +63,3 @@ docker run -v /root/yzm/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm 
 您没有使用-c选项指定验证码分类，已经自动判断分类为：2
 识别的结果为：0000,RNFYE
 ```
-
-
