@@ -26,9 +26,12 @@ docker-compose up -d
 1. **(不推荐)** 上传 `zip` 文件到网站进行识别
 首先将待识别的验证码打包成 `.zip` 的文件，然后在我们提供的验证码识别网站上面直接上传`.zip` 文件，并点击识别。等待识别完成后点击下载 `mappings.txt` 即可
 <img src="https://github.com/zm-dev/yzm-client/blob/master/screenshots/5.png" />
-> 上图为 `上传 .zip 文件` 界面
+
+上图为 *上传 .zip 文件* 界面
+
 <img src="https://github.com/zm-dev/yzm-client/blob/master/screenshots/6.png" />
-          上图为 `点击下载 mappings.txt 文件` 界面
+
+上图为 *点击下载 mappings.txt 文件* 界面
 
 2. **(推荐方法)** 上面的方法识别速度较慢，因为通过 [grpc](https://github.com/grpc/grpc) 与底层的[tensorflow 验证码识别服务](https://gitee.com/_admin/yzm)通信毕竟有延时。我们可以直接使用[tensorflow 验证码识别服务](https://gitee.com/_admin/yzm)中提供的命令行工具来生成 `mappings.txt`
 
@@ -51,7 +54,7 @@ docker run -v /root/yzm/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm 
 识别完成，正在排序并写入 mappings 文件中...
 成功生成文件：/test/data-1/mappings.txt
 ```
-打开 /root/yzm/data-1/mappings.txt 即可看到第一类验证码的识别结果，其他类别验证码的识别方法一样。
+打开 `/root/yzm/data-1/mappings.txt` 即可看到第一类验证码的识别结果，其他类别验证码的识别方法一样。
 
 
 单个识别命令:
@@ -77,6 +80,6 @@ docker run -v /root/data-5/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/y
 识别完成，正在排序并写入 mappings 文件中...
 成功生成文件：/test/mappings.txt
 ```
-打开 /root/data-5/mappings.txt 即可看到第 5 类验证码的识别结果。
+打开 `/root/data-5/mappings.txt` 即可看到第 5 类验证码的识别结果。
 
 
