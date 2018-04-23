@@ -30,7 +30,7 @@ docker-compose up -d
 <img src="http://cdn.hiphop.e8net.cn/yzm/6.png?1" />
 <p style="text-align:center">点击下载 mappings.txt 文件</p>
 
-2. <span style="color:red">(推荐方法)</span>上面的方法识别速度较慢，因为通过 [grpc](https://github.com/grpc/grpc) 与底层的[tensorflow 验证码识别服务] (https://gitee.com/_admin/yzm)通信毕竟有延时。我们可以直接使用[tensorflow 验证码识别服务] (https://gitee.com/_admin/yzm)中提供的命令行工具来生成 `mappings.txt`
+2. <span style="color:red">(推荐方法)</span>上面的方法识别速度较慢，因为通过 [grpc](https://github.com/grpc/grpc) 与底层的[tensorflow 验证码识别服务](https://gitee.com/_admin/yzm)通信毕竟有延时。我们可以直接使用[tensorflow 验证码识别服务](https://gitee.com/_admin/yzm)中提供的命令行工具来生成 `mappings.txt`
 首先准备以下文件(假设以下文件存放在 `/root/yzm` 下！！！)
 <img src="http://cdn.hiphop.e8net.cn/yzm/tree_1_4.jpg?1">
 
