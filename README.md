@@ -19,7 +19,7 @@ wget https://raw.githubusercontent.com/zm-dev/yzm-client/master/docker-compose.y
 docker-compose up -d
 ```
 等待镜像下载和启动完毕,直接打开浏览器访问 http://localhost:8102 即可访问到验证码识别的网站。
-<img src="http://cdn.hiphop.e8net.cn/yzm/1.png?1" />
+<img src="https://github.com/zm-dev/yzm-client/blob/master/screenshots/1.png?1" />
 该网站的操作方法麻烦您浏览我们提供的视频。
 
 ## 生成 mappings.txt 的方法:
@@ -63,3 +63,20 @@ docker run -v /root/yzm/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm 
 您没有使用-c选项指定验证码分类，已经自动判断分类为：2
 识别的结果为：0000,RNFYE
 ```
+
+## 第 5 类验证码识别方法
+### 首先准备以下文件(假设以下文件存放在 `/root/data-5` 下！！！)
+<img src="https://github.com/zm-dev/yzm-client/blob/master/screenshots/tree_5.png">
+
+执行命令:
+```
+docker run -v /Users/taoyu/Desktop/data-5/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm /usr/bin/env python /app/run.py -c 5 -o /test/mappings.txt /test/
+```
+命令执行完毕后会得到以下输出:
+```
+识别完成，正在排序并写入 mappings 文件中...
+成功生成文件：/test/mappings.txt
+```
+打开 /root/data-5/mappings.txt 即可看到第 5 类验证码的识别结果。
+
+
