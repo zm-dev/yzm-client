@@ -11,6 +11,7 @@
 1. 下载 [docker-compose.yml](https://raw.githubusercontent.com/zm-dev/yzm-client/master/docker-compose.yml) 文件。
 2. 进入 docker-compose.yml 所在的目录
 3. 执行 `docker-compose up -d`
+
 完整命令
 ```
 mkdir yzm
