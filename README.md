@@ -36,7 +36,7 @@ docker-compose up -d
 2. **(推荐方法)** 上面的方法识别速度较慢，因为通过 [grpc](https://github.com/grpc/grpc) 与底层的[tensorflow 验证码识别服务](https://gitee.com/_admin/yzm)通信毕竟有延时。我们可以直接使用[tensorflow 验证码识别服务](https://gitee.com/_admin/yzm)中提供的命令行工具来生成 `mappings.txt`
 
 ### 首先准备以下文件(假设以下文件存放在 `/root/yzm` 下！！！)
-<img src="https://github.com/zm-dev/yzm-client/blob/master/screenshots/tree_1_4.jpg">
+<img src="https://github.com/zm-dev/yzm-client/blob/master/screenshots/tree_1_4.png">
 
 
 获取帮助命令:
