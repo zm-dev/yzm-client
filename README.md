@@ -26,21 +26,26 @@ docker-compose up -d
 1. 上传 `zip` 文件到网站进行识别
 首先将待识别的验证码打包成 `.zip` 的文件，然后在我们提供的验证码识别网站上面直接上传`.zip` 文件，并点击识别。等待识别完成后点击下载 `mappings.txt` 即可
 <img src="http://cdn.hiphop.e8net.cn/yzm/5.png?1" />
-<p style="text-align:center">上传 .zip 文件</p>
+<p style="text-align:center;width:100%">上传 .zip 文件</p>
 <img src="http://cdn.hiphop.e8net.cn/yzm/6.png?1" />
-<p style="text-align:center">点击下载 mappings.txt 文件</p>
+<p style="text-align:center;width:100%">点击下载 mappings.txt 文件</p>
 
 2. <span style="color:red">(推荐方法)</span>上面的方法识别速度较慢，因为通过 [grpc](https://github.com/grpc/grpc) 与底层的[tensorflow 验证码识别服务](https://gitee.com/_admin/yzm)通信毕竟有延时。我们可以直接使用[tensorflow 验证码识别服务](https://gitee.com/_admin/yzm)中提供的命令行工具来生成 `mappings.txt`
-首先准备以下文件(假设以下文件存放在 `/root/yzm` 下！！！)
+
+### 首先准备以下文件(假设以下文件存放在 `/root/yzm` 下！！！)
 <img src="http://cdn.hiphop.e8net.cn/yzm/tree_1_4.jpg?1">
 
 
 获取帮助命令:
-`docker run registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm /usr/bin/env python /app/run.py -h`
+```
+docker run registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm /usr/bin/env python /app/run.py -h
+```
 
 批量识别命令:
-`docker run -v /root/yzm/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm /usr/bin/env python /app/run.py -o /test/data-1/mappings.txt /test/data-1/`
-命令执行完毕后会得到一下输出
+```
+docker run -v /root/yzm/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm /usr/bin/env python /app/run.py -o /test/data-1/mappings.txt /test/data-1/
+```
+命令执行完毕后会得到以下输出:
 ```
 您没有使用-c选项指定验证码分类，已经自动判断分类为：1
 识别完成，正在排序并写入 mappings 文件中...
@@ -50,8 +55,13 @@ docker-compose up -d
 
 
 单个识别命令:
-`docker run -v /root/yzm/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm-demo /usr/bin/env python /app/run.py -o /test/data-2/mappings.txt /test/data-2/0000.jpg`
-
-
+```
+docker run -v /root/yzm/:/test/:rw registry.cn-hangzhou.aliyuncs.com/zm-dev/yzm /usr/bin/env python /app/run.py -o /test/data-2/mappings.txt /test/data-2/0000.jpg
+```
+命令执行完毕后会得到以下输出:
+```
+您没有使用-c选项指定验证码分类，已经自动判断分类为：2
+识别的结果为：0000,RNFYE
+```
 
 
