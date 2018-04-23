@@ -12,7 +12,7 @@
 2. 进入 docker-compose.yml 所在的目录
 3. 执行 `docker-compose up -d`
 
-完整命令
+完整命令:
 ```
 mkdir yzm
 cd yzm
