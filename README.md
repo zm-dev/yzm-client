@@ -2,7 +2,7 @@
 
 我们的验证码识别分为两个项目
 
-1. [tensorflow 验证码识别服务] (https://gitee.com/_admin/yzm)
+1. [tensorflow 验证码识别服务](https://gitee.com/_admin/yzm)
 2. [验证码识别网站服务](https://github.com/zm-dev/yzm-client)
 
 服务间使用 [grpc](https://github.com/grpc/grpc) 通信。同时两个项目已经 `push` 到阿里云 docker 仓库，可以使用 docker 轻易部署。
